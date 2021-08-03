@@ -20,12 +20,11 @@ del wb['Sheet']
 
 for list_name, list_id in tables:
     print('Fetching {} ...'.format(list_name))
-    members = df.get_list_members(list_id)
     ws = wb.create_sheet(title=list_name)
-    if len(members) > 0:
-        for col, header in enumerate(members[0].keys()):
-            ws.cell(1, col + 1, header)
-    for row, member in enumerate(members):
+    for row, member in enumerate(df.get_list_members(list_id)):
+        if row == 0:
+            for col, header in enumerate(member.keys()):
+                ws.cell(1, col + 1, header)
         for col, val in enumerate(member.values()):
             ws.cell(row + 2, col + 1, val)
 

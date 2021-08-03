@@ -43,18 +43,19 @@ def get_list_members(list_id):
     page_size = 1000
     page = 1
     path = f'lists/{list_id}/Results'
-    all_results = []
+    total = 0
     while True:
         params = {
             'numberOfRows': page_size,
             'fromRow': (page - 1) * page_size,
         }
         results = request('get', path, params=params)
+        total = total + len(results)
         if results == []:
             break
-        all_results += results
+        for row in results:
+            yield row
         page += 1
-    total = len(all_results)
 
     results = request('get', f'lists/{list_id}')
     expected_total = results['RowCount']
@@ -62,7 +63,6 @@ def get_list_members(list_id):
     if total != expected_total:
         print('Total: {}\nExpected total: {}'.format(
             total, expected_total))
-    return all_results
 
 
 def get_constituent(email):
