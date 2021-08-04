@@ -12,7 +12,7 @@ tables = [
     ('Recurring Payment Instructions', '6ed9931b-b94b-455c-9b84-ee1aa3571d19'),
     ('Soft Credits', '27af90c1-971a-4029-a20f-dc4746516c1c'),
     ('Tags', 'a29b2121-8d90-4b61-b72b-0e93a72779b4'),
-    ('Transactions', '7d897c73-11da-4c49-8d46-6595f87a78b2'),
+    ('Transactions', 'af465202-b334-4164-a5b4-bd11d841e997'),
 ]
 
 wb = Workbook()
