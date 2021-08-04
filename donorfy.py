@@ -63,8 +63,3 @@ def get_list_members(list_id):
     if total != expected_total:
         print('Total: {}\nExpected total: {}'.format(
             total, expected_total))
-
-
-def get_constituent(email):
-    path = f'constituents/EmailAddress/{email}'
-    return request('get', path)
