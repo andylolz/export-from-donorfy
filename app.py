@@ -1,6 +1,11 @@
+from os.path import join
+import csv
+
 from openpyxl import Workbook
 
 import donorfy as df
+
+output_folder = 'output'
 
 tables = [
     ('Activities', '1955351a-2672-40fe-8097-7a57ca1adbd8'),
@@ -15,17 +20,34 @@ tables = [
     ('Transactions', 'af465202-b334-4164-a5b4-bd11d841e997'),
 ]
 
-wb = Workbook()
-del wb['Sheet']
+
+def slugify(inp):
+    return inp.lower().replace(' ', '-')
+
 
 for list_name, list_id in tables:
     print('Fetching {} ...'.format(list_name))
+    fname = join(output_folder, '{}.csv'.format(slugify(list_name)))
+    with open(fname, 'w') as f:
+        writer = csv.writer(f)
+        for row, member in enumerate(df.get_list_members(list_id)):
+            if row == 0:
+                writer.writerow(member.keys())
+            writer.writerow(member.values())
+
+wb = Workbook()
+del wb['Sheet']
+
+for list_name, _ in tables:
     ws = wb.create_sheet(title=list_name)
-    for row, member in enumerate(df.get_list_members(list_id)):
+    fname = join(output_folder, '{}.csv'.format(slugify(list_name)))
+    with open(fname) as f:
+        reader = csv.DictReader(f)
+    for row, member in enumerate(reader):
         if row == 0:
             for col, header in enumerate(member.keys()):
                 ws.cell(1, col + 1, header)
         for col, val in enumerate(member.values()):
             ws.cell(row + 2, col + 1, val)
 
-wb.save(filename='output.xlsx')
+wb.save(filename=join(output_folder, 'output.xlsx'))
