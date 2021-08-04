@@ -8,7 +8,7 @@ import requests
 api_key = getenv('DONORFY_API_KEY')
 access_key = getenv('DONORFY_ACCESS_KEY')
 base_url = f'https://data.donorfy.com/api/v1/{api_key}/'
-auth = ('mailchimp-sync', access_key)
+auth = ('donorfy-export', access_key)
 email_keys = [
     'ContactDetails_Personal_Email1Address',
     'ContactDetails_Personal_Email2Address',
